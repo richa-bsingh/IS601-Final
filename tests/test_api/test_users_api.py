@@ -209,3 +209,23 @@ async def test_list_users_0_pagination(async_client, admin_token):
     )
     assert response.status_code == 400
     assert "Limit must be greater than 0" in response.json().get("detail", "")
+
+@pytest.mark.asyncio
+async def test_create_user_github(async_client):
+    data = {"email": "jon.does@example.com",
+        "password": "AnotherPassword123!",
+        "role" : "ANONYMOUS",
+        "github_profile_url": "http://www.github.com/richa-bsingh"}
+    response = await async_client.post("/register/", json=data)
+    assert response.status_code == 200
+    assert response.json()["github_profile_url"] == data["github_profile_url"]
+
+@pytest.mark.asyncio
+async def test_create_user_linkedin(async_client):
+    data = {"email": "jon.doe@example.com",
+        "password": "AnotherPassword123!",
+        "role" : "ANONYMOUS",
+        "linkedin_profile_url": "http://www.linkedin.com/in/richa-singh-78935438/"}
+    response = await async_client.post("/register/", json=data)
+    assert response.status_code == 200
+    assert response.json()["linkedin_profile_url"] == data["linkedin_profile_url"]
