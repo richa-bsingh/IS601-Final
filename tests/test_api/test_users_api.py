@@ -200,3 +200,12 @@ async def test_update_user_email_duplicate_update_fail(async_client, admin_user,
     assert response1.status_code == 200
     assert response2.status_code == 404
     assert "Email address already taken" in response2.json().get("detail", "")
+
+@pytest.mark.asyncio
+async def test_list_users_0_pagination(async_client, admin_token):
+    response = await async_client.get(
+        "/users/?limit=0&skip=0",
+        headers={"Authorization": f"Bearer {admin_token}"}
+    )
+    assert response.status_code == 400
+    assert "Limit must be greater than 0" in response.json().get("detail", "")
