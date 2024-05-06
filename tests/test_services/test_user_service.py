@@ -179,3 +179,37 @@ async def test_create_user_with_same_email(db_session, email_service):
     }
     user2 = await UserService.create(db_session, user_data2, email_service)
     assert user2 is None
+
+# Test updating non-existent user
+
+async def test_update_non_existent_user(db_session):
+
+    non_existent_user_id = "non-existent-id"
+
+    updated_user = await UserService.update(db_session, non_existent_user_id, {"email": "new_email@example.com"})
+
+    assert updated_user is None
+
+
+
+
+# Test listing users beyond available range
+
+async def test_list_users_beyond_range(db_session):
+
+    users = await UserService.list_users(db_session, skip=1000, limit=10)
+
+    assert len(users) == 0
+
+
+
+
+# Test for account unlock using incorrect ID
+
+async def test_unlock_user_account_incorrect_id(db_session):
+
+    incorrect_user_id = "incorrect-id"
+
+    unlocked = await UserService.unlock_user_account(db_session, incorrect_user_id)
+
+    assert unlocked is False
