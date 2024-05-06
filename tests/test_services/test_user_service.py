@@ -161,3 +161,21 @@ async def test_unlock_user_account(db_session, locked_user):
     assert unlocked, "The account should be unlocked"
     refreshed_user = await UserService.get_by_id(db_session, locked_user.id)
     assert not refreshed_user.is_locked, "The user should no longer be locked"
+
+async def test_create_user_with_same_email(db_session, email_service):
+    user_data1 = {
+        "nickname": generate_nickname(),
+        "email": "valid_user@example.com",
+        "password": "ValidPassword123!",
+        "role": UserRole.ADMIN.name
+    }
+    user1 = await UserService.create(db_session, user_data1, email_service)
+    assert user1.email == user_data1["email"]
+    user_data2 = {
+        "nickname": generate_nickname(),
+        "email": "valid_user@example.com",
+        "password": "ValidPassword123!",
+        "role": UserRole.ANONYMOUS.name
+    }
+    user2 = await UserService.create(db_session, user_data2, email_service)
+    assert user2 is None
