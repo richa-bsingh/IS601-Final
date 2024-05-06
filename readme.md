@@ -29,7 +29,7 @@ Screenshot for working S3 bucket with test image in minio.
 
 Link to docker image: https://hub.docker.com/repository/docker/richa0719/user_management/general
 
-## Below are the learnings from this project:
+## Learnings from this project:
 
 This project focuses on learning modern technologies and best practices in software development through building a hands-on web application. It incorporates the 12-Factor App methodology, Agile development practices, and integrates various advanced tools and frameworks.
 
